@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use DB;
-use Auth;
 
 use App\Models\User;
-use App\Models\History;
 
 use Illuminate\View\View;
-
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function index(): View {
         $params = [
             "titlePages"    => 'User List',

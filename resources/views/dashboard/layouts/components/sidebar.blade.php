@@ -46,13 +46,13 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/forms/general.html" class="nav-link">
+                    <a href={{ url('/admin/tags') }} class="nav-link">
                       <i class="fa fa-tag nav-icon"></i>
                       <p>Tag</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/forms/advanced.html" class="nav-link">
+                    <a href={{ url('/admin/locations') }} class="nav-link">
                       <i class="fa fa-map nav-icon"></i>
                       <p>Location</p>
                     </a>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
@@ -30,6 +32,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('admin', [DashboardController::class, 'index'])->name('admin.home');
 
     Route::resource('admin/users', UsersController::class);
+    Route::resource('admin/tags', TagsController::class);
+    Route::resource('admin/locations', LocationsController::class);
 });
 
 
