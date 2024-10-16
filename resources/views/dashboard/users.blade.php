@@ -12,70 +12,6 @@
     <link rel="stylesheet" href="{{ asset('/') }}plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @endpush
 
-@section('buttonHeader')
-<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-create">
-    <i class="fas fa-plus"></i> Create User
-</button>
-
-<div class="modal fade" id="modal-create">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Create - User</h4>
-            </div>
-            <form action="{{ route('users.store') }}" id="quickForm" method="POST" enctype="multipart/form-data">
-                @csrf
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Nama Pengguna" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" name="email" class="form-control" placeholder="Email Pengguna" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Password Pengguna" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>Role :</label>
-                            <select class="form-control select2bs4" name="role" style="width: 100%;">
-                                <option value="admin">
-                                    Admin
-                                </option>
-                                <option value="approval">
-                                    Approval
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -84,10 +20,14 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
+                        <th>Nama Usaha</th>
+                        <th>Alamat</th>
+                        <th>Telphone</th>
+                        <th>Deskripsi</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Created at</th>
-                        <th>Updated at</th>
+                        <th>Dibuat</th>
+                        <th>Diupdate</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -96,20 +36,29 @@
                         <tr>
                             <td>{{ $loop->index+1}}</td>
                             <td>{{ $data->name }}</td>
+                            <td>{{ $data->company_name }}</td>
+                            <td>{{ $data->address }}</td>
+                            <td>{{ $data->contact }}</td>
+                            <td>{{ $data->desc }}</td>
                             <td>{{ $data->email }}</td>
                             <td>
                                 @if ($data->role == 'admin')
-                                    Admin
+                                    <span class="badge bg-primary">Admin</span>
                                 @else
-                                    Approval
+                                    <span class="badge bg-success">Customer</span>
                                 @endif
                             </td>
                             <td>{{ date_format(date_create($data->created_at), 'd M Y H:i:s') }}</td>
                             <td>{{ date_format(date_create($data->updated_at), 'd M Y H:i:s') }}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-{{ $data->id }}">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-{{ $data->id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-id={{ $data->id }}>
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
 
                                 <div class="modal fade" id="modal-{{ $data->id }}">
                                     <div class="modal-dialog">
@@ -126,15 +75,55 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Name</label>
-                                                                <input type="text" name="name" class="form-control" placeholder="Nama Pengguna" value={{ $data->name }}>
+                                                                <input type="text" name="name" class="form-control" placeholder="Nama Pengguna" value="{{ $data->name }}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label>Email</label>
-                                                                <input type="text" name="email" class="form-control" placeholder="Email Pengguna" value={{ $data->email }}>
+                                                                <label>Name Usaha</label>
+                                                                <input type="text" name="company_name" class="form-control" placeholder="Nama Usaha" value="{{ $data->company_name }}" >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Alamat</label>
+                                                                <textarea
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    placeholder="Alamat"
+                                                                    name="address"
+                                                                    class="form-control"
+                                                                    rows="6"
+                                                                >{{ $data->address }}
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Telephone</label>
+                                                                <input type="text" name="contact" class="form-control" placeholder="Telephone" value="{{ $data->contact }}" >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Deskripsi</label>
+                                                                <textarea
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    placeholder="Deskripsi"
+                                                                    name="desc"
+                                                                    class="form-control"
+                                                                    rows="6"
+                                                                >{{ $data->desc }}
+                                                                </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -145,8 +134,8 @@
                                                                 <option value="admin"
                                                                     {{ $data->role === 'admin' ? 'selected' : '' }}> Admin
                                                                 </option>
-                                                                <option value="approval"
-                                                                    {{ $data->role === 'approval' ? 'selected' : '' }}> Approval
+                                                                <option value="customer"
+                                                                    {{ $data->role === 'customer' ? 'selected' : '' }}> Customer
                                                                 </option>
                                                             </select>
                                                         </div>
@@ -160,10 +149,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <button type="button" class="btn btn-sm btn-danger btn-delete" data-id={{ $data->id }}>
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -217,7 +202,13 @@
                     name: {
                         required: true,
                     },
-                    email: {
+                    company_name: {
+                        required: true,
+                    },
+                    address: {
+                        required: true,
+                    },
+                    contact: {
                         required: true,
                     },
                     role: {
@@ -231,7 +222,13 @@
                     name: {
                         required: "Tidak Boleh Kosong",
                     },
-                    email: {
+                    company_name: {
+                        required: "Tidak Boleh Kosong",
+                    },
+                    address: {
+                        required: "Tidak Boleh Kosong",
+                    },
+                    contact: {
                         required: "Tidak Boleh Kosong",
                     },
                     role: {

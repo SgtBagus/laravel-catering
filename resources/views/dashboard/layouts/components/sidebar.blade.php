@@ -40,6 +40,12 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
+                    <a href={{ url('/admin/users') }} class="nav-link">
+                      <i class="fa fa-users nav-icon"></i>
+                      <p>User List</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="pages/forms/general.html" class="nav-link">
                       <i class="fa fa-tag nav-icon"></i>
                       <p>Tag</p>
